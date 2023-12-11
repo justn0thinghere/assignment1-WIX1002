@@ -1,0 +1,7 @@
+arrays
+items[][]: [i][0]-item_code [i][1]-item [i][2]-unit [i][3]-item_group [i][4]-item_category
+premise[][]: [0]-premise_code [1]-premise [2]-address [3]-premise_type [4]-state [5]-district
+pricecatch[][]: [0]-date[1]-premise_code[2]-item_code[3]-price
+categories[][][]: biggest dimension(second dimension(third dimension))
+[a][b][c]: a indicates the index of the big category, [a][0][0] is the big category and [a][0][1] does not exist, so do [a][2]
+and other values above 1 in b, [a][1] contains the sub category of the big category mentioned, [a][1][c], c is the index for the sub category
