@@ -1,4 +1,3 @@
-
 package javaapplication94;
 
 import java.io.BufferedReader;
