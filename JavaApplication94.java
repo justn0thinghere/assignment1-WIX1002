@@ -25,6 +25,7 @@ public class JavaApplication94 {
             BufferedReader br2 = new BufferedReader(new FileReader("C:\\Users\\USER\\OneDrive\\Documents\\NetBeansProjects\\JavaApplication94\\src\\javaapplication94\\passwords.csv"));
             BufferedReader br3 = new BufferedReader(new FileReader("C:\\Users\\user\\OneDrive\\Documents\\NetBeansProjects\\JavaApplication94\\src\\javaapplication94\\securityQuestion.csv"));
             BufferedReader br4 = new BufferedReader(new FileReader("C:\\Users\\user\\OneDrive\\Documents\\NetBeansProjects\\JavaApplication94\\src\\javaapplication94\\securityAnswer.csv"));
+            BufferedReader br5 = new BufferedReader(new FileReader("C:\\Users\\user\\OneDrive\\Documents\\NetBeansProjects\\JavaApplication94\\src\\javaapplication94\\cart.csv"));
             String line = "";
             while((line = br.readLine())!= null){
                 user.add(line);
@@ -37,6 +38,14 @@ public class JavaApplication94 {
             }
             while((line = br4.readLine())!= null){
                 securityAnswer.add(line);
+            }
+            while((line = br5.readLine())!= null){
+                String[]c = line.split(",");
+                ArrayList<String>www = new ArrayList<String>();
+                for(int j = 0;j<c.length;j++){
+                    www.add(c[j]);
+                }
+                cart.add(www);
             }
         }catch(IOException e){
             e.printStackTrace();
@@ -97,12 +106,13 @@ public class JavaApplication94 {
             }else{
                 user.add(username);
                 password.add(pass_word);
-                cart.add(null);
+                deter:
+                while(true){
                 System.out.println("Please choose one security question: ");
                 System.out.print("1.What is the name of your primary school? \n2.What is your hobby? \n3.What is your favourite food? \nYour choice(1/2/3): ");
                 int securityQues = input.nextInt();
                 input.nextLine();
-                String line = "";
+                String line = null;
                 switch(securityQues) {
                     case 1: 
                         line = "What is the name of your primary school?";
@@ -119,10 +129,17 @@ public class JavaApplication94 {
                     default:
                         System.out.println("Invalid choice.");
                 }
+                if(line!=null){
+                    break;
+                }
+                }
                 System.out.print("\nEnter your security answer: ");
                 String ans = input.nextLine();
                 securityAnswer.add(ans);
                 System.out.println("new user successfully created");
+                ArrayList<String>kkk = new ArrayList<String>();
+                kkk.add("nt");
+                cart.add(kkk);
             }
         }   
         else if(exist == 3){
@@ -143,25 +160,38 @@ public class JavaApplication94 {
         File passwords = new File("C:\\Users\\USER\\OneDrive\\Documents\\NetBeansProjects\\JavaApplication94\\src\\javaapplication94\\passwords.csv");
         File secques = new File("C:\\Users\\USER\\OneDrive\\Documents\\NetBeansProjects\\JavaApplication94\\src\\javaapplication94\\securityQuestion.csv");
         File secans = new File("C:\\Users\\USER\\OneDrive\\Documents\\NetBeansProjects\\JavaApplication94\\src\\javaapplication94\\securityAnswer.csv");
+        File crt = new File("C:\\Users\\USER\\OneDrive\\Documents\\NetBeansProjects\\JavaApplication94\\src\\javaapplication94\\cart.csv");
         PrintWriter user_names = new PrintWriter(usernames);
         PrintWriter pass_words = new PrintWriter(passwords);
         PrintWriter ques = new PrintWriter(secques);
         PrintWriter ans = new PrintWriter(secans);
+        PrintWriter cct = new PrintWriter(crt);
         int k;
         for(k = 0;k<user.size()-1;k++){
             user_names.print(user.get(k)+"\n");
             pass_words.print(password.get(k)+"\n");
             ques.print(securityQuestion.get(k)+"\n");
             ans.print(securityAnswer.get(k)+"\n");
+            int w;
+            for(w = 0;w<cart.get(k).size()-1;w++){
+                cct.print(cart.get(k).get(w)+",");
+            }
+            cct.print(cart.get(k).get(w)+"\n");
         }
         user_names.print(user.get(k));
         pass_words.print(password.get(k));
-        ques.print(securityQuestion.get(k)+"\n");
-        ans.print(securityAnswer.get(k)+"\n");
+        ques.print(securityQuestion.get(k));
+        ans.print(securityAnswer.get(k));
+        int w;
+        for(w = 0;w<cart.get(k).size()-1;w++){
+            cct.print(cart.get(k).get(w)+",");
+        }
+        cct.print(cart.get(k).get(w));
         user_names.close();
         pass_words.close();
         ques.close();
         ans.close();
+        cct.close();
         }catch(IOException e){
             e.printStackTrace();
         }
@@ -801,10 +831,399 @@ public class JavaApplication94 {
     }
     
     public static void shopcart(ArrayList<String[]>items,ArrayList<String[]>premise,ArrayList<String[]>pricecatcher,ArrayList<ArrayList<String>>cart,int userid){
-        System.out.println("Shopping cart\n");
-        
-        System.out.println("1. View cheapest seller for all selected items");
-        System.out.println("2. Find shops to buy items in cart");
+        Scanner input = new Scanner(System.in);
+        while(true){
+            System.out.println("\nShopping cart\n");
+            System.out.println("Your items: ");
+            if(cart.get(userid).size()==1){
+                System.out.println("You have not selected any items yet.");
+                System.out.print("Enter anything to go back: ");
+                String xxx = input.nextLine();
+                break;
+            }else{
+            int w;
+            for(w = 1;w<cart.get(userid).size()-1;w++){
+                System.out.print(cart.get(userid).get(w) + ",");
+            }
+            System.out.println(cart.get(userid).get(w));
+            System.out.println("1. View cheapest seller for all selected items");
+            System.out.println("2. Find shops to buy items in cart");
+            System.out.println("3. Remove item from cart");
+            System.out.println("Back - any other number");
+            System.out.print("Your choice: ");
+            int choice = input.nextInt();
+            if(choice==1){
+                System.out.print("View according to date-1,view according to average price-any other number: ");
+                int c = input.nextInt();
+                input.nextLine();
+                if(c==1){
+                    System.out.println("Enter date: ");
+                    String dt = input.nextLine();
+                    System.out.println("At date: " + dt);
+                    for(int i = 1;i<cart.get(userid).size();i++){
+                        String code = "";
+                        int counters=0;
+                        for(int j = 1;j<i;j++){
+                            if(cart.get(userid).get(i).equals(cart.get(userid).get(j))){
+                                counters++;
+                                break;
+                            }
+                        }
+                        if(counters==0){
+                        System.out.println(cart.get(userid).get(i)+" : ");
+                        for(int x = 0;x<items.size();x++){
+                            item go = new item(items.get(x));
+                            if(cart.get(userid).get(i).equals(go.getItem())){
+                                code = go.getCode();
+                                break;
+                            }
+                        }
+                        ArrayList<String[]>thatday = new ArrayList<String[]>();
+                        for(int y = 1;y<pricecatcher.size();y++){
+                            price p = new price(pricecatcher.get(y));
+                                if(dt.equals(p.getDate())&&code.equals(p.getItem())){
+                                thatday.add(pricecatcher.get(y));
+                            }
+                        }
+                        if(thatday.size()==0){
+                            System.out.println("no records");
+                        }else{
+                        for(int y = 0;y<thatday.size()-1;y++){
+                            for(int j = 0;j<thatday.size()-1-i;j++){
+                                price p = new price(thatday.get(j));
+                                price q = new price(thatday.get(j+1));
+                                if(p.getPrice()>q.getPrice()){
+                                    String[]temp = thatday.get(j);
+                                    thatday.set(j,thatday.get(j+1));
+                                    thatday.set(j+1,temp);
+                                }
+                            }
+                        }
+                        System.out.println("Cheapest seller at "+ dt + " is : ");
+                        price p = new price(thatday.get(0));
+                        for(int j = 0;j<premise.size();j++){
+                        premise pr = new premise(premise.get(j));
+                            if(p.getPremise().equals(pr.getCode())){
+                                System.out.printf("%s\n",pr.getPremise());
+                                System.out.printf("Price: %.2f\n",p.getPrice());
+                                System.out.printf("Address: %s\n\n",pr.getAddress());
+                                break;
+                            }
+                        }
+                        }
+                    }
+                    }
+                }else{
+                    for(int i = 1;i<cart.get(userid).size();i++){
+                        String code = "";
+                        int counters = 0;
+                        for(int j = 1;j<i;j++){
+                            if(cart.get(userid).get(i).equals(cart.get(userid).get(j))){
+                                counters++;
+                                break;
+                            }
+                        }
+                        if(counters==0){
+                        System.out.println(cart.get(userid).get(i)+" : ");
+                        for(int x = 0;x<items.size();x++){
+                            item go = new item(items.get(x));
+                            if(cart.get(userid).get(i).equals(go.getItem())){
+                                code = go.getCode();
+                                break;
+                            }
+                        }
+                        ArrayList<String[]>thatitem = new ArrayList<String[]>();
+                        ArrayList<String>retailers = new ArrayList<String>();
+                        ArrayList<Double>retpr = new ArrayList<Double>();
+                        for(int y = 1;y<pricecatcher.size();y++){
+                            price p = new price(pricecatcher.get(y));
+                            if(p.getItem().equals(code)){
+                                thatitem.add(pricecatcher.get(y));
+                            }
+                        }
+                        if(thatitem.size()==0){
+                            System.out.println("no records");
+                        }else{
+                            for(int y = 0;y<thatitem.size();y++){
+                                price p = new price(thatitem.get(y));
+                                String pcode = p.getPremise();
+                                int count = 0;
+                                for(int j = 0;j<y;j++){
+                                    price pn = new price(thatitem.get(j));
+                                    if(pcode.equals(pn.getPremise())){
+                                        count++;
+                                        break;
+                                    }
+                                }
+                                if(count==0){
+                                    retailers.add(pcode);
+                                }
+                            }
+                            for(int y = 0;y<retailers.size();y++){
+                                double sum = 0;
+                                double divider = 0;
+                                double avg = 0;
+                                for(int j = 0;j<thatitem.size();j++){
+                                    price p = new price(thatitem.get(j));
+                                    if(p.getPremise().equals(retailers.get(y))){
+                                        sum+=p.getPrice();
+                                        divider++;
+                                    }
+                                }
+                                avg = sum/divider;
+                                retpr.add(avg);
+                            }
+                            for(int y = 0;y<retpr.size()-1;y++){
+                                for(int j = 0;j<retpr.size()-1-y;j++){
+                                    if(retpr.get(j)>retpr.get(j+1)){
+                                        double tempp = retpr.get(j);
+                                        String tempr = retailers.get(j);
+                                        retpr.set(j,retpr.get(j+1));
+                                        retpr.set(j+1, tempp);
+                                        retailers.set(j,retailers.get(j+1));
+                                        retailers.set(j+1,tempr);
+                                    }
+                                }
+                            }
+                        System.out.println("On average, cheapest seller is: ");
+                        for(int j = 0;j<premise.size();j++){
+                            premise pr = new premise(premise.get(j));
+                            if(pr.getCode().equals(retailers.get(0))){
+                                System.out.printf("%s\n",pr.getPremise());
+                                System.out.printf("Price: %.2f\n",retpr.get(0));
+                                System.out.printf("Address: %s\n\n",pr.getAddress());
+                                break;
+                            }
+                        }
+                        }
+                        }
+                    }
+                }
+            }else if(choice==2){
+                ArrayList<String[]>thatitem = new ArrayList<String[]>();
+                ArrayList<String>themissing = new ArrayList<String>();
+                ArrayList<ArrayList<String>>retailer = new ArrayList<ArrayList<String>>();
+                ArrayList<ArrayList<String>>retailer2 = new ArrayList<ArrayList<String>>();
+                ArrayList<Double>retpr = new ArrayList<Double>();
+                System.out.print("Do you want to add filter?YES-1,NO-any other number: ");
+                int ch = input.nextInt();
+                if(ch==1){
+                    
+                }else{
+                    for(int x = 1;x<cart.get(userid).size();x++){
+                        String code = "";
+                        for(int y = 1;y<items.size();y++){
+                            item go = new item(items.get(y));
+                            if(cart.get(userid).get(x).equals(go.getItem())){
+                                code = go.getCode();
+                                break;
+                            }
+                        }
+                        for(int y = 1;y<pricecatcher.size();y++){
+                            price p = new price(pricecatcher.get(y));
+                            if(p.getItem().equals(code)){
+                                thatitem.add(pricecatcher.get(y));
+                            }
+                        }
+                    }
+                    for(int y = 0;y<thatitem.size();y++){
+                        price p = new price(thatitem.get(y));
+                        String pcode = p.getPremise();
+                        int count = 0;
+                        for(int j = 0;j<y;j++){
+                            price pn = new price(thatitem.get(j));
+                            if(pcode.equals(pn.getPremise())){
+                                count++;
+                                break;
+                            }
+                        }
+                        if(count==0){
+                            ArrayList<String>ppp = new ArrayList<String>();
+                            ppp.add(pcode);
+                            retailer.add(ppp);
+                        }
+                    }
+                    for(int y = 0;y<retailer.size();y++){
+                        String premcd = retailer.get(y).get(0);
+                        ArrayList<String>own = new ArrayList<String>();
+                        own.add(premcd);
+                        int inxx=1;
+                        for(int z = 0;z<thatitem.size();z++){
+                            price p = new price(thatitem.get(z));
+                            if(p.getPremise().equals(premcd)){
+                                String itemcode = p.getItem();
+                                int count = 0;
+                                String itemname = "";
+                                for(int a = 1;a<items.size();a++){
+                                    item it = new item(items.get(a));
+                                    if(itemcode.equals(it.getCode())){
+                                        itemname = it.getItem();
+                                    }
+                                }
+                                for(int a = 1;a<inxx;a++){
+                                    if(own.get(a).equals(itemname)){
+                                        count++;
+                                        break;
+                                    }
+                                }
+                                if(count==0){
+                                    own.add(itemname);
+                                    inxx++;
+                                }
+                            }
+                        }
+                        retailer.set(y, own);
+                    }
+                    int max = 0;
+                    for(int y =0;y<retailer.size();y++){
+                        if(retailer.get(y).size()>max){
+                            max = retailer.get(y).size();
+                        }
+                    }
+                    
+                    for(int y = 0;y<retailer.size();y++){
+                        if(retailer.get(y).size()==max){
+                            retailer2.add(retailer.get(y));
+                        }
+                    }
+                    for(int y = 0;y<retailer2.size();y++){
+                        double tot = 0;
+                        for(int z = 1;z<retailer2.get(y).size();z++){
+                            String premcd = retailer2.get(y).get(0);
+                            String itemcd = "";
+                            double sum = 0;
+                            double avg = 0;
+                            double div = 0;
+                            for(int a = 1;a<items.size();a++){
+                                item it = new item(items.get(a));
+                                if(it.getItem().equals(retailer2.get(y).get(z))){
+                                    itemcd = it.getCode();
+                                }
+                            }
+                            for(int a = 0;a<thatitem.size();a++){
+                                price p = new price(thatitem.get(a));
+                                if(p.getItem().equals(itemcd)&&p.getPremise().equals(premcd)){
+                                    sum+= p.getPrice();
+                                    div+=1;
+                                }
+                            }
+                            avg = sum/div;
+                            tot+=avg;
+                        }
+                        retpr.add(tot);
+                    }
+                    double min = retpr.get(0);
+                    int tgt =0 ;
+                    for(int k = 0;k<retpr.size();k++){
+                        if(retpr.get(k)<min){
+                            min = retpr.get(k);
+                        }
+                    }
+                    for(;tgt<retpr.size();tgt++){
+                        if(retpr.get(tgt)==min){
+                            break;
+                        }
+                    }
+                    double[]toootal = {0};
+                    System.out.print("You can find ");
+                    for(int y = 1;y<retailer2.get(tgt).size()-1;y++){
+                        System.out.print(retailer2.get(tgt).get(y)+", ");
+                    }
+                    System.out.print("and " + retailer2.get(tgt).get(retailer2.get(tgt).size()-1) + " in ");
+                    for(int y = 0;y<premise.size();y++){
+                        premise p = new premise(premise.get(y));
+                        if(p.getCode().equals(retailer2.get(tgt).get(0))){
+                            System.out.println(p.getPremise());
+                            System.out.println("Adress: " + p.getAddress() + "\n");
+                        }
+                    }
+                    for(int y = 1;y<retailer2.get(tgt).size();y++){
+                        String premcd = retailer2.get(tgt).get(0);
+                        String itemname = retailer2.get(tgt).get(y);
+                        String itemcd = "";
+                        double sum = 0;
+                        double avg = 0;
+                        double div = 0;
+                        double mul = 0;
+                        for(int a = 1;a<cart.get(userid).size();a++){
+                            if(cart.get(userid).get(a).equals(itemname)){
+                                mul++;
+                            }
+                        }
+                        for(int a = 1;a<items.size();a++){
+                            item it = new item(items.get(a));
+                            if(it.getItem().equals(itemname)){
+                                itemcd = it.getCode();
+                           }
+                        }
+                        for(int a = 0;a<thatitem.size();a++){
+                            price p = new price(thatitem.get(a));
+                            if(p.getItem().equals(itemcd)&&p.getPremise().equals(premcd)){
+                                sum+= p.getPrice();
+                                div+=1;
+                            }
+                        }
+                        avg = sum/div;
+                        toootal[0]+=avg*mul;
+                    }
+                    if(max<cart.get(userid).size()-1){
+                        for(int y = 1;y<cart.get(userid).size();y++){
+                            int det = 0;
+                            for(int z = 1;z<retailer2.get(tgt).size();z++){
+                                if(cart.get(userid).get(y).equals(retailer2.get(tgt).get(z))){
+                                    det++;
+                                }
+                            }
+                            if(det==0){
+                                themissing.add(cart.get(userid).get(y));
+                            }
+                        }
+                        missing(themissing,toootal,thatitem,items,premise,cart.get(userid));
+                    }
+                    
+                }
+            }else if(choice==3){
+                System.out.println("Which item do you want to remove?");
+                int jjk = 0;
+                ArrayList<String>remov = new ArrayList<String>();
+                for(int x = 1;x<cart.get(userid).size();x++){
+                    int countxx = 0;
+                    for(int y = 1;y<x;y++){
+                        if(cart.get(userid).get(x).equals(cart.get(userid).get(y))){
+                            countxx++;
+                            break;
+                        }
+                    }
+                    if(countxx ==0){
+                        remov.add(cart.get(userid).get(x));
+                        System.out.println((jjk+1) + ". "+cart.get(userid).get(x));
+                        jjk++;
+                    }
+                }
+                System.out.println("Cancel-any other number.");
+                System.out.print("Enter your choice: ");
+                int cc = input.nextInt();
+                if(cc<=remov.size()){
+                    System.out.println("How many items of this kind do you want to remove?");
+                    System.out.print("Enter your choice: ");
+                    int times = input.nextInt();
+                    int bbb = 0;
+                    while(bbb<times){
+                        String target = remov.get(cc-1);
+                        for(int ccc = 0;ccc<cart.get(userid).size();ccc++){
+                            if(target.equals(cart.get(userid).get(ccc))){
+                                cart.get(userid).remove(ccc);
+                                break;
+                            }
+                        }
+                        bbb++;
+                    }
+                }
+            }else{
+                break;
+            }
+        }
+        }
     }
     
     public static void account(ArrayList<String>user,ArrayList<String>password,ArrayList<String>securityQuestion,ArrayList<String>securityAnswer,int userid){
@@ -875,23 +1294,34 @@ public class JavaApplication94 {
             System.out.print("Do you want to change your security password and answer?1-YES,2-NO: ");
             int ans = input.nextInt();
             while(ans==1){
+            deter:
+            while(true){
             System.out.println("\nChoose a new question: ");
             System.out.print("\n1.What is the name of your primary school? \n2.What is your hobby? \n3.What is your favourite food? \nYour choice(1/2/3): ");    
             int securityQues = input.nextInt();
             input.nextLine();
+            boolean tf = false;
             switch(securityQues) {
                 case 1: 
                     securityQuestion.set(userid,"What is the name of your primary school?");
+                    tf = true;
                     break;
                 case 2:
                     securityQuestion.set(userid,"What is your hobby?");
+                    tf = true;
                     break;
                 case 3:
                     securityQuestion.set(userid,"What is your favourite food?");
+                    tf = true;
                     break;
                 default:
                     System.out.println("Invalid choice.");
                 }
+            if(tf){
+                break deter;
+            }
+            }
+            
             System.out.print("\nEnter your security answer: ");
             String answer = input.nextLine();
             securityAnswer.set(userid,answer);
@@ -912,6 +1342,7 @@ public class JavaApplication94 {
         System.out.println("4.View price trend");
         System.out.println("5.Add to shopping cart");
         System.out.println("6.Back");
+        System.out.print("Enter your choice: ");
         int choice = input.nextInt();
         if(choice == 1){
         System.out.println("Details: ");
@@ -1168,6 +1599,12 @@ public class JavaApplication94 {
                         }
                     }
                     avg = sum/divider;
+                    double round = avg%0.1;
+                    if(round<0.05){
+                        avg = avg-round;
+                    }else{
+                        avg = avg-round+0.1;
+                    }
                     dpr.add(avg);
                 }
                 double totavg = 0;
@@ -1176,17 +1613,22 @@ public class JavaApplication94 {
                     totsum+= dpr.get(i);
                 }
                 totavg = totsum/dpr.size();
+                double round = totavg%0.1;
+                if(round<0.05){
+                    totavg = totavg-round;
+                }else{
+                    totavg = totavg-round+0.1;
+                }
                 System.out.println("Price trend chart for product " + go.getItem());
                 System.out.printf("Average price for this product is: %.2f",totavg);
-                System.out.println("For the price,1 \"+\" means RM1 above average,1 \"*\" means 10 cent above average,1 \"'\" means 1 cent above average.");
-                System.out.println("While 1 \"-\" means RM1 below average,1 \"_\" means 10 cent below average,1 \".\" means 1 cent below average");
+                System.out.println("For the price,1 \"+\" means RM1 above average,1 \"*\" means 10 cent above average");
+                System.out.println("While 1 \"-\" means RM1 below average,1 \"_\" means 10 cent below average");
                 System.out.printf("%12s%3s%20s\n","Days","|","Price");
                 System.out.println("-------------------------------------------------------------------------------------");
                 for(int i = 0;i<dates.size();i++){
                     int one = 0;
                     int dot1 = 0;
-                    int dot01 = 0;
-                    System.out.printf("%12s%3s(%.2e)",dates.get(i),"|",dpr.get(i));
+                    System.out.printf("%12s%3s(%.2f)",dates.get(i),"|",dpr.get(i));
                     double temp = dpr.get(i);
                     if(temp>totavg){
                         double rem = temp-totavg;
@@ -1198,19 +1640,14 @@ public class JavaApplication94 {
                             rem-=0.1;
                             dot1++;
                         }
-                        while(rem>0.01){
-                            rem-=0.01;
-                            dot01++;
-                        }
+                        
                         for(int x = 0;x<one;x++){
                             System.out.print("+");
                         }
                         for(int x = 0;x<dot1;x++){
                             System.out.print("*");
                         }
-                        for(int x = 0;x<dot01;x++){
-                            System.out.print("'");
-                        }
+                        
                     }else if(temp<totavg){
                         double rem = totavg - temp;
                         while(rem>1){
@@ -1221,19 +1658,14 @@ public class JavaApplication94 {
                             rem-=0.1;
                             dot1++;
                         }
-                        while(rem>0.01){
-                            rem-=0.01;
-                            dot01++;
-                        }
+                        
                         for(int x = 0;x<one;x++){
                             System.out.print("-");
                         }
                         for(int x = 0;x<dot1;x++){
                             System.out.print("_");
                         }
-                        for(int x = 0;x<dot01;x++){
-                            System.out.print(".");
-                        }
+                        
                     }
                     System.out.println("");
                 }
@@ -1241,6 +1673,7 @@ public class JavaApplication94 {
             
         }else if(choice==5){
             cart.get(userid).add(go.getItem());
+            System.out.println("Item successfully added\n");
         }else if(choice==6){
             break;
         }else{
@@ -1277,4 +1710,188 @@ public class JavaApplication94 {
         }
     }
     
+    public static void missing(ArrayList<String>themissing,double[]toootal,ArrayList<String[]>thatitem,ArrayList<String[]>items,ArrayList<String[]>premise,ArrayList<String>cart){
+        ArrayList<String>newmissing = new ArrayList<String>();
+        ArrayList<String[]>newitem = new ArrayList<String[]>();
+        ArrayList<ArrayList<String>>retailer = new ArrayList<ArrayList<String>>();
+        ArrayList<ArrayList<String>>retailer2 = new ArrayList<ArrayList<String>>();
+        ArrayList<Double>retpr = new ArrayList<Double>();
+        int org = themissing.size();
+        String itemcd = "";
+        for(int i =0;i<themissing.size();i++){
+            for(int j = 0;j<items.size();j++){
+                item it = new item(items.get(j));
+                if(it.getItem().equals(themissing.get(i))){
+                    itemcd = it.getCode();
+                }
+            }
+            for(int j = 0;j<thatitem.size();j++){
+                price p = new price(thatitem.get(j));
+                if(itemcd.equals(p.getItem())){
+                    newitem.add(thatitem.get(j));
+                }
+            }
+        }
+        for(int i = 0;i<newitem.size();i++){
+            price p = new price(newitem.get(i));
+            String pcode = p.getPremise();
+            int count = 0;
+            for(int j = 0;j<i;j++){
+                price pn = new price(newitem.get(j));
+                if(pcode.equals(pn.getPremise())){
+                    count++;
+                    break;
+                }
+            }
+            if(count==0){
+                ArrayList<String>ppp = new ArrayList<String>();
+                ppp.add(pcode);
+                retailer.add(ppp);
+            }
+        }
+        for(int y = 0;y<retailer.size();y++){
+            String premcd = retailer.get(y).get(0);
+            ArrayList<String>own = new ArrayList<String>();
+            own.add(premcd);
+            int inxx=1;
+            for(int z = 0;z<newitem.size();z++){
+                price p = new price(newitem.get(z));
+                if(p.getPremise().equals(premcd)){
+                String itemcode = p.getItem();
+                int count = 0;
+                String itemname = "";
+                for(int a = 1;a<items.size();a++){
+                    item it = new item(items.get(a));
+                    if(itemcode.equals(it.getCode())){
+                        itemname = it.getItem();
+                    }
+                }
+                for(int a = 1;a<inxx;a++){
+                    if(own.get(a).equals(itemname)){
+                        count++;
+                        break;
+                    }
+                }
+                if(count==0){
+                    own.add(itemname);
+                    inxx++;
+                }
+                }
+            }
+            retailer.set(y, own);
+        }
+        int max = 0;
+        for(int y =0;y<retailer.size();y++){
+            if(retailer.get(y).size()>max){
+                max = retailer.get(y).size();
+            }
+        }
+                    
+        for(int y = 0;y<retailer.size();y++){
+            if(retailer.get(y).size()==max){
+                retailer2.add(retailer.get(y));
+            }
+        }
+        for(int y = 0;y<retailer2.size();y++){
+            double tot = 0;
+            for(int z = 1;z<retailer2.get(y).size();z++){
+                String premcd = retailer2.get(y).get(0);
+                itemcd = "";
+                double sum = 0;
+                double avg = 0;
+                double div = 0;
+                for(int a = 1;a<items.size();a++){
+                    item it = new item(items.get(a));
+                    if(it.getItem().equals(retailer2.get(y).get(z))){
+                        itemcd = it.getCode();
+                    }
+                }
+                for(int a = 0;a<newitem.size();a++){
+                    price p = new price(newitem.get(a));
+                    if(p.getItem().equals(itemcd)&&p.getPremise().equals(premcd)){
+                        sum+= p.getPrice();
+                        div+=1;
+                    }
+                }
+                avg = sum/div;
+                tot+=avg;
+                }
+            retpr.add(tot);
+        }
+        double min = retpr.get(0);
+        int tgt =0 ;
+        for(int k = 0;k<retpr.size();k++){
+            if(retpr.get(k)<min){
+                min = retpr.get(k);
+            }
+        }
+        for(;tgt<retpr.size();tgt++){
+            if(retpr.get(tgt)==min){
+                break;
+            }
+        }
+        for(int y = 1;y<retailer2.get(tgt).size()-1;y++){
+            System.out.print(retailer2.get(tgt).get(y)+", ");
+        }
+        System.out.print("and " + retailer2.get(tgt).get(retailer2.get(tgt).size()-1) + " in ");
+        for(int y = 0;y<premise.size();y++){
+            premise p = new premise(premise.get(y));
+            if(p.getCode().equals(retailer2.get(tgt).get(0))){
+                System.out.println(p.getPremise());
+                System.out.println("Adress: " + p.getAddress() + "\n");
+            }
+        }
+        for(int y = 1;y<retailer2.get(tgt).size();y++){
+            String premcd = retailer2.get(tgt).get(0);
+            String itemname = retailer2.get(tgt).get(y);
+            itemcd = "";
+            double sum = 0;
+            double avg = 0;
+            double div = 0;
+            double mul = 0;
+            for(int a = 1;a<cart.size();a++){
+                if(cart.get(a).equals(itemname)){
+                    mul++;
+                }
+            }
+            for(int a = 1;a<items.size();a++){
+                item it = new item(items.get(a));
+                if(it.getItem().equals(itemname)){
+                    itemcd = it.getCode();
+                }
+            }
+            for(int a = 0;a<newitem.size();a++){
+                price p = new price(newitem.get(a));
+                if(p.getItem().equals(itemcd)&&p.getPremise().equals(premcd)){
+                    sum+= p.getPrice();
+                    div+=1;
+                }
+            }
+            avg = sum/div;
+            toootal[0]+=avg*mul;
+        }
+        
+        if(max<themissing.size()&&max!=0){
+            for(int y = 1;y<cart.size();y++){
+                int det = 0;
+                for(int z = 1;z<retailer2.get(tgt).size();z++){
+                    if(cart.get(y).equals(retailer2.get(tgt).get(z))){
+                        det++;
+                    }
+                }
+                if(det==0){
+                    newmissing.add(cart.get(y));
+                }
+            }
+            missing(newmissing,toootal,newitem,items,premise,cart);
+        }else if(max==0){
+            System.out.printf("with the total of RM %.2f",toootal[0]);
+            for(int i = 0;i<themissing.size()-1;i++){
+                System.out.println(themissing.get(i) + ", ");
+            }
+            System.out.println("and " + themissing.get(themissing.size()-1) + " cannot be found in any stores");
+        }else{
+            System.out.printf("with the total of RM %.2f",toootal[0]);
+        }
+    }
 }
