@@ -573,19 +573,21 @@ public class chooseitem {
                 for(int i = 0;i<dates.size();i++){
                     int one = 0;
                     int dot1 = 0;
-                    System.out.printf("%12s%3s(%.2f)",dates.get(i),"|",dpr.get(i));
                     double temp = dpr.get(i);
+                    round = temp%0.1;
+                    if(round<0.05){
+                        temp = temp-round;
+                    }else{
+                        temp = temp-round+0.1;
+                    }
+                    System.out.printf("%12s%3s(%.2f)",dates.get(i),"|",temp);
                     if(temp>totavg){
                         double rem = temp-totavg;
-                        while(rem>1){
-                            rem--;
+                        while(rem>=1){
                             one++;
+                            rem--;
                         }
-                        while(rem>0.1){
-                            rem-=0.1;
-                            dot1++;
-                        }
-                        
+                        dot1 = (int)Math.round(rem/0.1);
                         for(int x = 0;x<one;x++){
                             System.out.print("+");
                         }
@@ -595,15 +597,11 @@ public class chooseitem {
                         
                     }else if(temp<totavg){
                         double rem = totavg - temp;
-                        while(rem>1){
-                            rem--;
+                        while(rem>=1){
                             one++;
+                            rem--;
                         }
-                        while(rem>0.1){
-                            rem-=0.1;
-                            dot1++;
-                        }
-                        
+                        dot1 = (int)Math.round(rem/0.1);
                         for(int x = 0;x<one;x++){
                             System.out.print("-");
                         }
