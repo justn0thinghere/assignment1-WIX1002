@@ -125,6 +125,7 @@ public class accsettings {
                 System.out.println("Same as the previous password");
             }else{
                 password.set(userid,pass);
+                System.out.println("Password reset successful");
                 break all;
             }
             }

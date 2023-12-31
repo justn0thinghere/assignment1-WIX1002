@@ -84,7 +84,12 @@ public class JavaApplication94 {
                 }
             }
             if(i == user.size()){
-                System.out.println("User not exist");
+                System.out.println("User not exist.Retry-1/Back-any other number");
+                int g;
+                g = input.nextInt();
+                if(g!=1){
+                    break;
+                }
             }
         }
         }
