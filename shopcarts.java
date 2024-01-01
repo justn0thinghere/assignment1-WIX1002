@@ -217,9 +217,19 @@ public class shopcarts {
                             }
                             if(sim==0){
                                 chosenfilter.add(filter.get(filterchoice-1));
+                            }else{
+                                System.out.println("This district was chosen.");
                             }
                         }else{
-                            break;
+                            if(chosenfilter.size()==0){
+                                System.out.println("You have not chosen any filter. Do you want to just continue without filter? Yes-1/No and continue choosing - Any other number");
+                                int cccc = input.nextInt();
+                                if(cccc==1){
+                                    break;
+                                }
+                            }else{
+                                break;
+                            }
                         }
                     }
                     if(chosenfilter.size()==0){
@@ -239,7 +249,6 @@ public class shopcarts {
                             }
                         }
                         }
-                        finding(thatitem,themissing,retailer,retailer2,retpr,items,premise,pricecatcher,cart,userid);
                     }else{
                         System.out.println("Your chosen filters are: ");
                         for(int x = 0;x<chosenfilter.size()-1;x++){
