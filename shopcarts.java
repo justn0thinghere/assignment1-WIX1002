@@ -22,7 +22,7 @@ public class shopcarts {
             }
             System.out.println(cart.get(userid).get(w));
             System.out.println("1. View cheapest seller for all selected items");
-            System.out.println("2. Find shops to buy items in cart");
+            System.out.println("2. Find shops to buy items in cart(Prices are based on average price)");
             System.out.println("3. Remove item from cart");
             System.out.println("Back - any other number");
             System.out.print("Your choice: ");
