@@ -239,6 +239,10 @@ public class importing {
                         System.out.println("Invalid choice");
                         break;
             }
+        }else if(ans==2){
+            break;
+        }else{
+            System.out.println("Invalid choice");
         }
      }
     }
