@@ -208,16 +208,16 @@ public class JavaApplication94 {
             premise goes = new premise();
             price goer = new price();
             int [] count = {0}; //declare and initialize a count that will be used later
-            iteems.counteritem(count); //to change the value of count[0] and build an array for lookupitems
-            System.out.println("number of items is: " + count[0]);
-            ArrayList<String[]>items = iteems.call(); //declared and stored in the heed/stack
+            iteems.counteritem(count); //to change the value of count[0]
+            System.out.println("number of items is: " + (count[0]-1));
+            ArrayList<String[]>items = iteems.call(); //declared and stored in the heap/stack
             count[0] = 0;//reinitialize to be used again
-            goes.counterpremise(count); //to change the value of count[0] and build an array for lookup items;
-            System.out.println("number of premises is: " +count[0]);
+            goes.counterpremise(count); //to change the value of count[0]
+            System.out.println("number of premises is: " +(count[0]-1));
             ArrayList<String[]>premise = goes.calling(); //declare and stored in heed/stack
             count[0]=0;//reinitialize
-            goer.countprice(count); //to change the value of count[0] and build an array for pricecatcher;
-            System.out.println("number of prices is: " + count[0]);
+            goer.countprice(count); //to change the value of count[0]
+            System.out.println("number of prices is: " + (count[0]-1));
             ArrayList<String[]>pricecatcher = goer.call(); //same explanation as other 2
             ArrayList<String[]>newitem = new ArrayList<String[]>();
             ArrayList<String[]>newpremise = new ArrayList<String[]>();
